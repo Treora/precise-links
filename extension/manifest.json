@@ -1,0 +1,16 @@
+{
+    "name": "Web Annotation Selector support",
+    "version": "1.0",
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "js": ["content_script.js"],
+        "run_at": "document_end"
+    }],
+    "permissions": [
+        "<all_urls>"
+    ],
+    "applications": {
+        "gecko": {"id": "selector-extension@example"}
+    },
+    "manifest_version": 2
+}
