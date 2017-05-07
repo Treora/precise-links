@@ -46,7 +46,7 @@ function copy(event) {
     event.clipboardData.setData('text/plain', selection.toString())
 
     const targetUri = selectorToUri(specificResource)
-    event.clipboardData.setData('text/url', targetUri)
+    event.clipboardData.setData('text/uri-list', targetUri)
 
     const html = createHtmlQuote({range, uri: targetUri})
 
