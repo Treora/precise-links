@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "description": "Browser extension to support Selectors in URIs.",
   "scripts": {
-    "build": "browserify -o extension/content_script.js src/content_script.js",
-    "watch": "watchify -o extension/content_script.js src/content_script.js -v"
+    "build": "npm run build-content-script && npm run build-background-script",
+    "watch": "npm run watch-content-script | : | npm run watch-background-script",
+    "build-content-script": "browserify -o extension/content_script.js src/content_script.js",
+    "watch-content-script": "watchify -o extension/content_script.js src/content_script.js -v",
+    "build-background-script": "browserify -o extension/background_script.js src/background_script.js",
+    "watch-background-script": "watchify -o extension/background_script.js src/background_script.js -v"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",

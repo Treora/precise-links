@@ -27,9 +27,11 @@ function createHtmlQuote({range, uri}) {
     return html
 }
 
-function copy(event) {
-    event.preventDefault()
+function createHtmlLink(uri) {
+    return `<a href="${uri}">${uri}</a>`
+}
 
+function copy({clipboardData, copyLink}) {
     const selection = window.getSelection()
     if (selection.rangeCount == 0) return
 
@@ -47,18 +49,45 @@ function copy(event) {
     }
 
     const data = JSON.stringify(specificResource)
-    event.clipboardData.setData('application/ld+json', data)
-    event.clipboardData.setData('text/plain', selection.toString())
+    clipboardData.setData('application/ld+json', data)
 
     const targetUri = specificResourceToUri(specificResource)
-    event.clipboardData.setData('text/uri-list', targetUri)
+    clipboardData.setData('text/uri-list', targetUri)
 
-    const html = createHtmlQuote({range, uri: targetUri})
+    if (copyLink) {
+        // Copy the link to the selection, not the contents
+        clipboardData.setData('text/plain', targetUri)
 
-    event.clipboardData.setData('text/html', html)
+        const html = createHtmlLink(targetUri)
+        clipboardData.setData('text/html', html)
+    } else {
+        // Copy selection contents
+        clipboardData.setData('text/plain', selection.toString())
+
+        const html = createHtmlQuote({range, uri: targetUri})
+        clipboardData.setData('text/html', html)
+    }
 }
 
-document.addEventListener('copy', copy)
+let copyLink = false
+function handleCopy(event) {
+    event.preventDefault()
+
+    copy({
+        clipboardData: event.clipboardData,
+        copyLink,
+    })
+}
+
+document.addEventListener('copy', handleCopy)
+
+browser.runtime.onMessage.addListener(message => {
+    if (message.type === 'copyLinkToSelection') {
+        copyLink = true
+        document.execCommand('copy')
+        copyLink = false
+    }
+})
 
 
 // DEBUG
