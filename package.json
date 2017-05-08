@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "dom-anchor-selector": "git+https://github.com/Treora/dom-anchor-selector.git",
-    "selector-state-frags": "git+https://github.com/Treora/selector-extension.git"
+    "selector-state-frags": "git+https://github.com/Treora/selector-state-frags.git"
   },
   "browserify": {
     "transform": [
