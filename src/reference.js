@@ -14,7 +14,7 @@ function copy({clipboardData}) {
 
     const documentUri = document.location.href.split('#')[0]
     const specificResource = {
-        '@context': 'http://www.w3.org/ns/oa.jsonld',
+        '@context': 'http://www.w3.org/ns/anno.jsonld',
         type: 'SpecificResource',
         source: documentUri,
         selector,
