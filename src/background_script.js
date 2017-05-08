@@ -1,3 +1,6 @@
+import browser from 'webextension-polyfill'
+
+
 browser.contextMenus.create({
     id: 'copyLinkToSelection',
     title: 'Copy link to selected text',

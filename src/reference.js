@@ -1,3 +1,4 @@
+import browser from 'webextension-polyfill'
 import { rangeToSelector } from 'dom-anchor-selector'
 import { specificResourceToUri } from 'selector-state-frags'
 
