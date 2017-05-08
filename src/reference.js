@@ -5,6 +5,8 @@ function createHtmlQuote({range, uri}) {
     const selectedContent = range.cloneContents()
     // TODO: inline styles&images, wrap in common ancestor(s), resolve relative URLs
 
+    const blockQuoteEl = document.createElement('blockquote')
+
     const quoteEl = document.createElement('q')
     quoteEl.appendChild(selectedContent)
     quoteEl.setAttribute('cite', uri)
@@ -15,10 +17,13 @@ function createHtmlQuote({range, uri}) {
     const aEl = document.createElement('a')
     aEl.setAttribute('href', uri)
     aEl.innerHTML = '[source]'
-    citeEl.appendChild(aEl)
-    quoteEl.appendChild(citeEl)
 
-    const html = quoteEl.outerHTML
+    citeEl.appendChild(aEl)
+    blockQuoteEl.appendChild(quoteEl)
+    blockQuoteEl.appendChild(citeEl)
+
+    // Append a <br /> so editors do not put the cursor inside the blockquote.
+    const html = blockQuoteEl.outerHTML + '<br />'
     return html
 }
 
