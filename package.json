@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "dom-anchor-selector": "git+https://github.com/Treora/dom-anchor-selector.git",
+    "escape-html": "^1.0.3",
     "scroll-into-view": "^1.8.0",
     "selector-state-frags": "git+https://github.com/Treora/selector-state-frags.git",
     "webextension-polyfill": "^0.1.1"

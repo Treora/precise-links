@@ -1,38 +1,9 @@
+import escapeHtml from 'escape-html'
 import browser from 'webextension-polyfill'
 import { rangeToSelector } from 'dom-anchor-selector'
 import { specificResourceToUri } from 'selector-state-frags'
 
-function createHtmlQuote({range, uri}) {
-    const selectedContent = range.cloneContents()
-    // TODO: inline styles&images, wrap in common ancestor(s), resolve relative URLs
-
-    const blockQuoteEl = document.createElement('blockquote')
-
-    const quoteEl = document.createElement('q')
-    quoteEl.appendChild(selectedContent)
-    quoteEl.setAttribute('cite', uri)
-
-    const citeEl = document.createElement('cite')
-    citeEl.style = 'vertical-align: super; margin-left: 0.5em;'
-
-    const aEl = document.createElement('a')
-    aEl.setAttribute('href', uri)
-    aEl.innerHTML = '[source]'
-
-    citeEl.appendChild(aEl)
-    blockQuoteEl.appendChild(quoteEl)
-    blockQuoteEl.appendChild(citeEl)
-
-    // Append a <br /> so editors do not put the cursor inside the blockquote.
-    const html = blockQuoteEl.outerHTML + '<br />'
-    return html
-}
-
-function createHtmlLink(uri) {
-    return `<a href="${uri}">${uri}</a>`
-}
-
-function copy({clipboardData, copyLink}) {
+function copy({clipboardData}) {
     const selection = window.getSelection()
     if (selection.rangeCount == 0) return
 
@@ -49,55 +20,26 @@ function copy({clipboardData, copyLink}) {
         selector,
     }
 
-    const data = JSON.stringify(specificResource)
-    clipboardData.setData('application/ld+json', data)
-
     const targetUri = specificResourceToUri(specificResource)
+
+    clipboardData.setData('application/ld+json', JSON.stringify(specificResource))
     clipboardData.setData('text/uri-list', targetUri)
-
-    if (copyLink) {
-        // Copy the link to the selection, not the contents
-        clipboardData.setData('text/plain', targetUri)
-        clipboardData.setData('text/markdown', `[${targetUri}](${targetUri})`)
-
-        const html = createHtmlLink(targetUri)
-        clipboardData.setData('text/html', html)
-    } else {
-        // Copy selection contents
-        const text = selection.toString()
-        clipboardData.setData('text/plain', text)
-        clipboardData.setData('text/markdown', `[${text}](${targetUri})`)
-
-        const html = createHtmlQuote({range, uri: targetUri})
-        clipboardData.setData('text/html', html)
-    }
+    clipboardData.setData('text/plain', targetUri)
+    clipboardData.setData('text/markdown', `[${targetUri}](${targetUri})`)
+    clipboardData.setData('text/html', `<a href="${escapeHtml(targetUri)}">${targetUri}</a>`)
 }
 
-let copyLink = false
 function handleCopy(event) {
     event.preventDefault()
-
     copy({
         clipboardData: event.clipboardData,
-        copyLink,
     })
 }
 
-document.addEventListener('copy', handleCopy)
-
 browser.runtime.onMessage.addListener(message => {
     if (message.type === 'copyLinkToSelection') {
-        copyLink = true
+        document.addEventListener('copy', handleCopy)
         document.execCommand('copy')
-        copyLink = false
+        document.removeEventListener('copy', handleCopy)
     }
 })
-
-
-// DEBUG
-document.addEventListener('paste', paste)
-function paste(event) {
-    console.log(event.clipboardData.getData('text/plain'))
-    console.log(event.clipboardData.getData('application/ld+json'))
-    console.log(event.clipboardData.getData('text/html'))
-}
