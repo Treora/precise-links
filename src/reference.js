@@ -57,12 +57,15 @@ function copy({clipboardData, copyLink}) {
     if (copyLink) {
         // Copy the link to the selection, not the contents
         clipboardData.setData('text/plain', targetUri)
+        clipboardData.setData('text/markdown', `[${targetUri}](${targetUri})`)
 
         const html = createHtmlLink(targetUri)
         clipboardData.setData('text/html', html)
     } else {
         // Copy selection contents
-        clipboardData.setData('text/plain', selection.toString())
+        const text = selection.toString()
+        clipboardData.setData('text/plain', text)
+        clipboardData.setData('text/markdown', `[${text}](${targetUri})`)
 
         const html = createHtmlQuote({range, uri: targetUri})
         clipboardData.setData('text/html', html)
