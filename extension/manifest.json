@@ -1,5 +1,6 @@
 {
-    "name": "Web Annotation Selector support",
+    "name": "Precise links",
+    "description": "Enables creating and resolving links to specific pieces of text in a page.",
     "version": "1.0",
     "background": {
         "scripts": ["background_script.js"]
@@ -15,7 +16,7 @@
         "contextMenus"
     ],
     "applications": {
-        "gecko": {"id": "selector-extension@example"}
+        "gecko": {"id": "precise-links@precise-links"}
     },
     "manifest_version": 2
 }
