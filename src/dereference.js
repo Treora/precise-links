@@ -1,5 +1,5 @@
 import { selectorToRange } from 'dom-anchor-selector'
-import { uriToSelector } from 'selector-state-frags'
+import { uriToSpecificResource } from 'selector-state-frags'
 import scrollIntoView from 'scroll-into-view'
 
 window.onload = processWindowLocation
@@ -7,9 +7,9 @@ window.onhashchange = processWindowLocation
 
 function processWindowLocation() {
     const uri = window.location.href
-    const selector = uriToSelector(uri)
-    if (selector) {
-        const range = selectorToRange(selector.selector)
+    const specificResource = uriToSpecificResource(uri)
+    if (specificResource.selector) {
+        const range = selectorToRange(specificResource.selector)
 
         const element = range.startContainer.parentElement
         scrollIntoView(element, {time: 200})

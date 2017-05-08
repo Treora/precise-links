@@ -1,5 +1,5 @@
 import { rangeToSelector } from 'dom-anchor-selector'
-import { selectorToUri } from 'selector-state-frags'
+import { specificResourceToUri } from 'selector-state-frags'
 
 function createHtmlQuote({range, uri}) {
     const selectedContent = range.cloneContents()
@@ -45,7 +45,7 @@ function copy(event) {
     event.clipboardData.setData('application/ld+json', data)
     event.clipboardData.setData('text/plain', selection.toString())
 
-    const targetUri = selectorToUri(specificResource)
+    const targetUri = specificResourceToUri(specificResource)
     event.clipboardData.setData('text/uri-list', targetUri)
 
     const html = createHtmlQuote({range, uri: targetUri})
