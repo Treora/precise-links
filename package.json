@@ -9,7 +9,7 @@
     "watch-content-script": "watchify -o extension/content_script.js src/content_script.js -v",
     "build-background-script": "browserify -o extension/background_script.js src/background_script.js",
     "watch-background-script": "watchify -o extension/background_script.js src/background_script.js -v",
-    "fx-build": "web-ext build -s extension -a dist",
+    "fx-build": "web-ext build -s extension -a dist && rename -f 's/\\.zip$/.xpi/' dist/*.zip",
     "fx-run": "web-ext run -s extension"
   },
   "devDependencies": {
