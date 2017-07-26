@@ -1,7 +1,7 @@
 {
     "name": "Precise links",
     "description": "Enables creating and resolving links to specific pieces of text in a page.",
-    "version": "1.0",
+    "version": "1.0.1",
     "background": {
         "scripts": ["background_script.js"]
     },
