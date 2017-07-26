@@ -25,7 +25,7 @@
     "dom-anchor-selector": "git+https://github.com/Treora/dom-anchor-selector.git#f0b52c4",
     "escape-html": "^1.0.3",
     "scroll-into-view": "^1.8.0",
-    "selector-state-frags": "git+https://github.com/Treora/selector-state-frags.git#326412c",
+    "selector-state-frags": "git+https://github.com/Treora/selector-state-frags.git#51fe53d",
     "webextension-polyfill": "^0.1.1"
   },
   "browserify": {
