@@ -2,8 +2,8 @@ import { selectorToRange } from 'dom-anchor-selector'
 import { uriToSpecificResource } from 'selector-state-frags'
 import scrollIntoView from 'scroll-into-view'
 
-window.onload = processWindowLocation
-window.onhashchange = processWindowLocation
+window.addEventListener('load', processWindowLocation)
+window.addEventListener('hashchange', processWindowLocation)
 
 function processWindowLocation() {
     const uri = window.location.href
